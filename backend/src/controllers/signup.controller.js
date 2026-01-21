@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../libs/utils.js";
+import { sendWelcomeEmail } from "../emails/emailHandlers.js";
 export const signup = async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
@@ -33,6 +34,12 @@ export const signup = async (req, res) => {
     if (newUser) {
       generateToken(newUser._id, res);
       await newUser.save();
+      //email send
+      try {
+        sendWelcomeEmail(newUser.email);
+      } catch (error) {
+        console.error("Error in email sending", error);
+      }
       res.status(200).json({
         _id: newUser._id,
         fullName: newUser.fullName,
