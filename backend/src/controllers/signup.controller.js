@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../libs/utils.js";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
+
 export const signup = async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
@@ -32,8 +33,8 @@ export const signup = async (req, res) => {
     });
 
     if (newUser) {
-      generateToken(newUser._id, res);
       await newUser.save();
+      generateToken(newUser._id, res);
       //email send
       try {
         sendWelcomeEmail(newUser.email);
@@ -44,6 +45,7 @@ export const signup = async (req, res) => {
         _id: newUser._id,
         fullName: newUser.fullName,
         email: newUser.email,
+        profilPic: newUser.profilPic,
       });
     } else {
       return res.status(400).json({ message: "Inavlid User data" });
@@ -52,4 +54,32 @@ export const signup = async (req, res) => {
     console.log("Error in signup controller");
     res.status(500).json({ message: "Internal server error" });
   }
+};
+
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: "Inavlid Credentials" });
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect)
+      return res.status(400).json({ message: "Inavlid Credentials" });
+
+    generateToken(user._id, res);
+
+    res.status(200).json({
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      profilePic: user.profilPic,
+    });
+  } catch (error) {
+    console.error("Error in login controller", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+export const logout = async (req, res) => {
+  res.cookie("jwt","",{maxAge0});
+  res.status(200).json({message:"Logout successfully"});
 };
