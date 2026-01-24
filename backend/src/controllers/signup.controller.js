@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../libs/utils.js";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
-
+import cloudinary from "../libs/cloudinary.js";
 export const signup = async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
@@ -58,11 +58,10 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
-  if(!email || !password){
-    res.status(400).json({message:"Inavalid credentials"});
+  if (!email || !password) {
+    res.status(400).json({ message: "Inavalid credentials" });
   }
   try {
-
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "Inavlid Credentials" });
 
@@ -84,6 +83,26 @@ export const login = async (req, res) => {
   }
 };
 export const logout = async (req, res) => {
-  res.cookie("jwt","",{maxAge0});
-  res.status(200).json({message:"Logout successfully"});
+  res.cookie("jwt", "", { maxAge0 });
+  res.status(200).json({ message: "Logout successfully" });
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { profilPic } = req.body;
+    if (!profilPic)
+      return res.status(400).json({ message: "Profile pic is required" });
+
+    const userId = req.user._id;
+    const uploadresponse = await cloudinary.uploader.upload(profilPic);
+    const updated = await User.findByIdAndUpdate(
+      userId,
+      { profilPic: uploadresponse.secure_url },
+      { new: true },
+    ).select("-password");
+    res.status(200).json(updated);
+  } catch (error) {
+    console.error("Problem in pic update", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
