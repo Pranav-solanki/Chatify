@@ -1,10 +1,11 @@
 import express from "express";
-import cookieParser from "cookie-parser"
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 dotenv.config();
 import path from "path";
 
 import authroutes from "./routes/auth.route.js";
+import messageroutes from "./routes/message.route.js"
 import { connectDB } from "./libs/db.js";
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -17,6 +18,7 @@ const __dirname = path.resolve();
 //     res.send("Home");
 // })
 app.use("/api/auth", authroutes);
+app.use("/api/messages", messageroutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
