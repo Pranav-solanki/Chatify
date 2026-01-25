@@ -1,10 +1,19 @@
 /** @type {import('tailwindcss').Config} */
-import daisyui from "daisyui"
+import daisyui from "daisyui";
 import typography from "@tailwindcss/typography";
 export default {
   content: [],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        border: "border 4s linear infinite",
+      },
+      keyframes: {
+        border: {
+          to: { "--border-angle": "360deg" },
+        },
+      },
+    },
   },
-  plugins: [typography],
+  plugins: [typography,daisyui],
 };

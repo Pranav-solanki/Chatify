@@ -3,13 +3,18 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 dotenv.config();
 import path from "path";
-
+import cors from "cors";
 import authroutes from "./routes/auth.route.js";
-import messageroutes from "./routes/message.route.js"
+import messageroutes from "./routes/message.route.js";
 import { connectDB } from "./libs/db.js";
 const PORT = process.env.PORT || 3000;
 const app = express();
-// app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(cookieParser());
 const __dirname = path.resolve();
