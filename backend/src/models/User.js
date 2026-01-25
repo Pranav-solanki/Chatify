@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
     },
     profilPic: {
       type: String,
-      default: "",
+      default: "https://img.freepik.com/free-vector/user-circles-set_78370-4704.jpg?semt=ais_hybrid&w=740&q=80",
     },
   },
   { timestamps: true },
