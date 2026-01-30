@@ -1,14 +1,14 @@
 import { useState, useRef } from "react";
 import { LogOutIcon, VolumeOffIcon, Volume2Icon } from "lucide-react";
-import { useAuthStore } from "../store/useAuthStore";
+import { useAuthStore} from "../store/useAuthStore.js";
 import { useChatStore } from "../store/useChatStore";
 
 const mouseClickSound = new Audio("/sounds/mouse-click.mp3");
-
 function ProfileHeader() {
   const { logout, authUser, updateProfile } = useAuthStore();
   const { isSoundEnabled, toggleSound } = useChatStore();
   const [selectedImg, setSelectedImg] = useState(null);
+  const {onlineUsers}=useAuthStore();
 
   const fileInputRef = useRef(null);
 
@@ -17,13 +17,13 @@ function ProfileHeader() {
     if (!file) return;
 
     const reader = new FileReader();
-    reader.readAsDataURL(file);
-
+    
     reader.onloadend = async () => {
       const base64Image = reader.result;
       setSelectedImg(base64Image);
       await updateProfile({ profilPic: base64Image });
     };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -31,7 +31,7 @@ function ProfileHeader() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           {/* AVATAR */}
-          <div className="avatar online">
+          <div className={`avatar offline`}>
             <button
               className="size-14 rounded-full overflow-hidden relative group"
               onClick={() => fileInputRef.current.click()}
