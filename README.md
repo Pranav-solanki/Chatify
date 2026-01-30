@@ -139,6 +139,16 @@ npm nodemon src/server.js --prefix backend
 # Start frontend client (in a new terminal)
 npm run dev --prefix frontend
 ```
-
+```bash
+Areas need to include in future
+1]Group chats
+2]Message Seen/Delivered
+3]Docker + CI/CD
+4]Searching things(both user and chats)
+5]Push Notification
+6]Role based access
+7]Voice notes + Audio calling
+8]Reply to message
+```
 
 
