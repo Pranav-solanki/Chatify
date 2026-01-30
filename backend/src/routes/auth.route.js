@@ -8,7 +8,7 @@ import {
 import { protectRoute } from "../middlewares/auth.middleware.js";
 import { arcProtection } from "../middlewares/arcjet.middleware.js";
 const router = express.Router();
-router.use(arcProtection);
+// router.use(arcProtection);
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/logout", logout);

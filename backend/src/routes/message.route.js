@@ -8,7 +8,7 @@ import {
   getChatPartners,
 } from "../controllers/message.controller.js";
 import { protectRoute } from "../middlewares/auth.middleware.js";
-router.use(arcProtection, protectRoute);
+router.use(protectRoute);
 router.get("/contacts", getAllContacts);
 router.get("/chats", getChatPartners);
 router.get("/:id", getMessagesByUserId);
