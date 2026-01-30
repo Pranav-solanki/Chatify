@@ -10,7 +10,7 @@
 ✅ Image Uploads (Cloudinary)  
 ✅ Welcome Emails (Resend)  
 ✅ Clean UI with Tailwind + DaisyUI  
-✅ Rate Limiting & Security (Arcjet)
+✅ Rate Limiting & Security (Arcjet)(i removed it because it thinking replit also a bot so unable to query backend request)
 
 ---
 
