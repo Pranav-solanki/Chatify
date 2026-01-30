@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { LogOutIcon, VolumeOffIcon, Volume2Icon } from "lucide-react";
 import { useAuthStore} from "../store/useAuthStore.js";
 import { useChatStore } from "../store/useChatStore";
+import { useEffect } from "react";
 
 const mouseClickSound = new Audio("/sounds/mouse-click.mp3");
 function ProfileHeader() {
@@ -11,7 +12,10 @@ function ProfileHeader() {
   const {onlineUsers}=useAuthStore();
 
   const fileInputRef = useRef(null);
-
+  useEffect(() => {
+    
+  }, [authUser])
+  
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -39,7 +43,7 @@ function ProfileHeader() {
               <img
                 src={
                   selectedImg ||
-                  authUser.profilPic ||
+                  authUser?.profilPic ||
                   "https://img.freepik.com/free-vector/user-circles-set_78370-4704.jpg?semt=ais_hybrid&w=740&q=80"
                 }
                 alt="User image"
