@@ -25,7 +25,7 @@ export const getMessagesByUserId = async (req, res) => {
         { senderId: userToChatId, receiverId: myId },
       ],
     });
-
+    
     res.status(200).json(messages);
   } catch (error) {
     console.error("Problelm in fetching end to end user chat", error);
